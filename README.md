@@ -5,8 +5,8 @@ A simple restaurant store React app.
 ## Getting started
 
 ```
-git clone https://github.com/Ezequiel-CE/shopping-cart.git
-cd shopping-cart
+git clone https://github.com/Ezequiel-CE/react-meals.git
+cd react-meals
 npm install
 npm start
 ```
