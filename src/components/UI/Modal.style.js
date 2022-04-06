@@ -22,7 +22,7 @@ export const StyledBackdrop = styled.div`
 
 export const StyledModal = styled.div`
   position: fixed;
-  top: 20vh;
+  top: 15vh;
   left: 5%;
   width: 90%;
   background-color: white;

@@ -23,3 +23,13 @@ export const StyledSection = styled.section`
     padding: 0;
   }
 `;
+
+export const StyledLoadingSection = styled.section`
+  text-align: center;
+  color: white;
+`;
+
+export const StyledErrorSection = styled.section`
+  text-align: center;
+  color: red;
+`;
