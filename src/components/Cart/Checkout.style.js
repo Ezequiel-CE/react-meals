@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const StyledForm = styled.form`
   margin: 1rem 0;
@@ -22,6 +22,19 @@ export const StyledControl = styled.div`
     width: 20rem;
     max-width: 100%;
   }
+
+  ${(props) =>
+    props.valid
+      ? ""
+      : css`
+          & label {
+            color: #ca3e51;
+          }
+          & input {
+            border-color: #aa0b20;
+            background-color: #ffeff1;
+          }
+        `}
 `;
 
 export const StyledActions = styled.div`

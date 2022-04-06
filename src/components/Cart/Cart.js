@@ -13,6 +13,8 @@ import CheckOut from "./Checkout";
 
 const Cart = ({ onCloseCart }) => {
   const [isCheckout, setIsCheckout] = useState(false);
+  const [isSubmiting, setIsSubmiting] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
 
   const cartCTX = useContext(CartContex);
 
@@ -28,6 +30,20 @@ const Cart = ({ onCloseCart }) => {
 
   const orderHandler = () => {
     setIsCheckout(true);
+  };
+
+  const submitOrderHandler = async (data) => {
+    setIsSubmiting(true);
+    await fetch(
+      "https://react-meal-http-4229c-default-rtdb.firebaseio.com/orders.json",
+      {
+        method: "POST",
+        body: JSON.stringify({ user: data, orderItems: cartCTX.items }),
+      }
+    );
+    setIsSubmiting(false);
+    setDidSubmit(true);
+    cartCTX.clearCart();
   };
 
   const cartItems = (
@@ -50,15 +66,27 @@ const Cart = ({ onCloseCart }) => {
     </ActionStyled>
   );
 
-  return (
-    <Modal onClose={onCloseCart}>
+  const cartModalContent = (
+    <>
       {cartItems}
       <TotalStyled>
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </TotalStyled>
-      {isCheckout && <CheckOut closeCart={onCloseCart} />}
+      {isCheckout && (
+        <CheckOut closeCart={onCloseCart} onConfirm={submitOrderHandler} />
+      )}
       {!isCheckout && modalActions}
+    </>
+  );
+  const isSubmitingModalContent = <p>Sending order data ...</p>;
+  const didSubmitModalContent = <p>Successfully sent the order!</p>;
+
+  return (
+    <Modal onClose={onCloseCart}>
+      {!isSubmiting && !didSubmit && cartModalContent}
+      {isSubmiting && isSubmitingModalContent}
+      {!isSubmiting && didSubmit && didSubmitModalContent}
     </Modal>
   );
 };

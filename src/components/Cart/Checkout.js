@@ -4,7 +4,7 @@ import { StyledForm, StyledControl, StyledActions } from "./Checkout.style";
 const isEmpty = (value) => value.trim() === "";
 const isFiveChar = (value) => value.trim().length === 5;
 
-const CheckOut = ({ closeCart }) => {
+const CheckOut = ({ closeCart, onConfirm }) => {
   const nameInputRef = useRef();
   const addressInputRef = useRef();
   const postalInputRef = useRef();
@@ -38,25 +38,33 @@ const CheckOut = ({ closeCart }) => {
 
     const formIsValid =
       nameIsValid && addressIsValid && postalIsValid && cityIsValid;
+
+    if (!formIsValid) return;
+
+    onConfirm({ name, address, postal, city });
   };
 
   return (
     <StyledForm onSubmit={onConfirmForm}>
-      <StyledControl>
+      <StyledControl valid={formInputsValidity.name}>
         <label htmlFor="name">Name</label>
         <input type="text" id="name" ref={nameInputRef} />
+        {!formInputsValidity.name && <p>Please enter a valid name.</p>}
       </StyledControl>
-      <StyledControl>
+      <StyledControl valid={formInputsValidity.address}>
         <label htmlFor="address">Address</label>
         <input type="text" id="address" ref={addressInputRef} />
+        {!formInputsValidity.address && <p>Please enter a valid address.</p>}
       </StyledControl>
-      <StyledControl>
+      <StyledControl valid={formInputsValidity.postal}>
         <label htmlFor="postal">Postal Code</label>
         <input type="text" id="postal" ref={postalInputRef} />
+        {!formInputsValidity.postal && <p>Please enter a valid postal code.</p>}
       </StyledControl>
-      <StyledControl>
+      <StyledControl valid={formInputsValidity.city}>
         <label htmlFor="city">City</label>
         <input type="text" id="city" ref={cityInputRef} />
+        {!formInputsValidity.city && <p>Please enter a valid City.</p>}
       </StyledControl>
       <StyledActions>
         <button onClick={closeCart}>Cancel</button>
